@@ -2050,6 +2050,20 @@ void CloseTab(WindowInfo* win, bool quitIfLast) {
     }
 }
 
+// closes all the tabs without closing the window
+void CloseAllTabs(WindowInfo* win) {
+	CrashIf(!win);
+    if (!win)
+        return;
+    size_t tabCount = win->tabs.size();
+
+	while (tabCount-- > 0) {
+        CrashIf(gPluginMode && gWindows.Find(win) == 0);
+        AbortFinding(win, true);
+        TabsOnCloseDoc(win);
+    }
+}
+
 bool MayCloseWindow(WindowInfo* win) {
     CrashIf(!win);
     if (!win)
@@ -3370,18 +3384,18 @@ static void FrameOnChar(WindowInfo& win, WPARAM key, LPARAM info = 0) {
         case 'g':
             OnMenuGoToPage(win);
             break;
-	case 'h':
-	    FrameOnKeydown(&win, VK_LEFT, 0);
-	    break;
+        case 'h':
+            FrameOnKeydown(&win, VK_LEFT, 0);
+            break;
         case 'j':
             FrameOnKeydown(&win, VK_DOWN, 0);
             break;
         case 'k':
             FrameOnKeydown(&win, VK_UP, 0);
             break;
-	case 'l':
-	    FrameOnKeydown(&win, VK_RIGHT, 0);
-	    break;
+        case 'l':
+            FrameOnKeydown(&win, VK_RIGHT, 0);
+            break;
         case 'n':
             win.ctrl->GoToNextPage();
             break;
@@ -3738,6 +3752,10 @@ static LRESULT FrameOnCommand(WindowInfo* win, HWND hwnd, UINT msg, WPARAM wPara
         case IDM_CLOSE:
         case IDT_FILE_EXIT:
             CloseTab(win);
+            break;
+
+        case IDM_CLOSEALL:
+            CloseAllTabs(win);
             break;
 
         case IDM_EXIT:

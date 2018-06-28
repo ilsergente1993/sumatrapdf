@@ -16,7 +16,8 @@
 #define IDD_PROPSHEET_PRINT_ADVANCED    139
 #define IDD_DIALOG_FAV_ADD              140
 #define IDM_OPEN                        400
-#define IDM_CLOSE                       401
+#define IDM_CLOSE						401
+#define IDM_CLOSEALL					1401 // added
 #define IDM_SAVEAS                      402
 #define IDM_PRINT                       403
 #define IDM_EXIT                        405
